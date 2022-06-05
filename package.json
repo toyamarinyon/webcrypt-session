@@ -1,0 +1,26 @@
+{
+  "name": "webcrypt-session",
+  "version": "0.0.1",
+  "description": "WebCrypt stateless session utility using signed and encrypted cookies to store data.",
+  "main": "index.js",
+  "scripts": {
+    "build": "node script/build.js",
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/toyamarinyon/webcrypt-session.git"
+  },
+  "author": "@toyamarinyon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/toyamarinyon/webcrypt-session/issues"
+  },
+  "homepage": "https://github.com/toyamarinyon/webcrypt-session#readme",
+  "dependencies": {
+    "esbuild": "^0.14.42"
+  },
+  "devDependencies": {
+    "vitest": "^0.13.1"
+  }
+}
