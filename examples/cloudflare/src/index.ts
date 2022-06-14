@@ -8,7 +8,7 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 import { z } from "zod";
-import { createWebCryptSession } from "../../../dist/webCryptSession";
+import { createWebCryptSession } from "../../../dist";
 export interface Env {
   // Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
   // MY_KV_NAMESPACE: KVNamespace;

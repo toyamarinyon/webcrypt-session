@@ -1,6 +1,6 @@
 import { test, expect } from "vitest";
 import { z } from "zod";
-import { createWebCryptSession } from "./webCryptSession";
+import { createWebCryptSession } from ".";
 
 test("session not exists", () => {
   const scheme = z.object({

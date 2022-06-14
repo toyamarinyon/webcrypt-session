@@ -2,11 +2,18 @@
   "name": "webcrypt-session",
   "version": "0.0.1",
   "description": "WebCrypt stateless session utility using signed and encrypted cookies to store data.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "node script/build.js",
-    "build:type": "tsc src/webCryptSession.ts --emitDeclarationOnly --declaration --outDir dist",
+    "build:type": "tsc src/index.ts --emitDeclarationOnly --declaration --outDir dist",
     "test": "vitest"
+  },
+  "exports":{
+    ".": {
+      "import": "./dist/webCryptSession.mjs",
+      "require": "./dist/webCryptSession.js",
+      "type": "./dist/webCryptSession.d.ts"
+    }
   },
   "repository": {
     "type": "git",
