@@ -5,6 +5,8 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "esnext",
     "moduleResolution": "node",
-    "types": ["vitest/importMeta", "@cloudflare/workers-types"]
-  }
+    "types": ["vitest/importMeta", "@cloudflare/workers-types"],
+    "strict": true
+  },
+  "exclude": ["./dev"]
 }

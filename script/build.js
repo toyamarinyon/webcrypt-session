@@ -1,5 +1,5 @@
 require("esbuild").build({
-  entryPoints: ["./src/index.ts"],
+  entryPoints: ["./src/webCryptSession.ts"],
   bundle: true,
   outdir: "dist",
   define: {
