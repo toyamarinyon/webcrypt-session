@@ -26,7 +26,6 @@ export function createWebCryptSession<T extends AnyZodObject>(
 } {
   const rawCookie = req.headers.get("cookie");
   const cookie = rawCookie ? parse(rawCookie) : { session: "" };
-  console.log(cookie)
   const session = JSONCookie(scheme, cookie.session);
   return Object.assign({
     session,
