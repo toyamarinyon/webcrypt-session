@@ -1,6 +1,12 @@
 import { parse, serialize } from "cookie";
 import { AnyZodObject, z } from "zod";
 
+const webCryptSessionOptionScheme = z.object({
+  password: z.string().length(32),
+  cookie: z.string(),
+});
+export type WebCryptSessionOption = z.infer<typeof webCryptSessionOptionScheme>;
+
 function JSONCookie(
   scheme: z.AnyZodObject,
   cookie: string
@@ -19,11 +25,24 @@ function JSONCookie(
 
 export function createWebCryptSession<T extends AnyZodObject>(
   scheme: T,
-  req: Request
+  req: Request,
+  option: WebCryptSessionOption
 ): {
   session: z.infer<T>;
   response: (body: string) => Response;
 } {
+  if (
+    req == null ||
+    scheme == null ||
+    option == null ||
+    option.password == null
+  ) {
+    throw new Error(`webcrypt-session: Bad usage`);
+  }
+  const parsedOption = webCryptSessionOptionScheme.safeParse(option);
+  if (!parsedOption.success) {
+    throw new Error(`webcrypt-session: Bad usage`);
+  }
   const rawCookie = req.headers.get("cookie");
   const cookie = rawCookie ? parse(rawCookie) : { session: "" };
   const session = JSONCookie(scheme, cookie.session);
