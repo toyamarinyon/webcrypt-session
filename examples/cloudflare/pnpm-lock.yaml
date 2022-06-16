@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@tsconfig/esm': ^1.0.1
   webcrypt-session: ^0.1.0
   wrangler: ^2.0.12
   zod: ^3.17.3
@@ -10,6 +11,7 @@ dependencies:
   zod: 3.17.3
 
 devDependencies:
+  '@tsconfig/esm': 1.0.1
   wrangler: 2.0.12
 
 packages:
@@ -185,6 +187,10 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    dev: true
+
+  /@tsconfig/esm/1.0.1:
+    resolution: {integrity: sha512-7AQo6puqT/DYOmgUT2YZnNHZ9qxciS5Kj2lGSkWLiuUgsFI/E2slBoiEjlJ+OEl88/7OjbUbnaF7Z3NZdopQgA==}
     dev: true
 
   /@types/stack-trace/0.0.29:
