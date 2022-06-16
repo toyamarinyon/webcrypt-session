@@ -1,0 +1,26 @@
+{
+  "name": "webcrypt-session-example",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "main": "",
+  "scripts": {
+    "dev": "wrangler dev"
+  },
+  "author": "Satoshi Toyama <toyamarinyon@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/toyamarinyon/webcrypt-session.git"
+  },
+  "bugs": {
+    "url": "https://github.com/toyamarinyon/webcrypt-session/issues"
+  },
+  "homepage": "https://github.com/toyamarinyon/webcrypt-session#readme",
+  "license": "ISC",
+  "dependencies": {
+    "webcrypt-session": "^0.1.0"
+  },
+  "devDependencies": {
+    "wrangler": "^2.0.12"
+  }
+}

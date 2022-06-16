@@ -3,7 +3,8 @@
 # Example
 ```bash
 cd examples/cloudflare
-npx wrangler dev
+pnpm insall
+pnpm dev
 ```
 ```bash
 curl -X POST -H "Content-Type: application/json" \
