@@ -19,17 +19,19 @@ export interface Env {
   // Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
   // MY_BUCKET: R2Bucket;
 }
+const sessionScheme = z.object({
+  username: z.string(),
+});
 
+const signInParamScheme = z.object({
+  username: z.string(),
+});
 export default {
   async fetch(
     request: Request,
     env: Env,
     ctx: ExecutionContext
   ): Promise<Response> {
-    const sessionScheme = z.object({
-      userId: z.number(),
-    });
-
     const webCryptSession = await createWebCryptSession(
       sessionScheme,
       request,
@@ -38,7 +40,26 @@ export default {
         cookie: "session",
       }
     );
-    webCryptSession.session.userId = 1;
-    return webCryptSession.response("Hello World!");
+    const url = new URL(request.url);
+    if (url.pathname === "/signIn") {
+      if (request.method !== "POST") {
+        return new Response(null, { status: 405 });
+      }
+      try {
+        const signInParam = signInParamScheme.parse(await request.json());
+        webCryptSession.session.username = signInParam.username;
+        return webCryptSession.response(`Hello ${signInParam.username}!`);
+      } catch {
+        return new Response(null, {
+          status: 400,
+        });
+      }
+    }
+    if (webCryptSession.session.username == null) {
+      return webCryptSession.response(
+        "Please sign in first with http://localhost:8787/signIn"
+      );
+    }
+    return webCryptSession.response(`Hello ${webCryptSession.session.username}`);
   },
 };
