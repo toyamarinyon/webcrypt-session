@@ -1,0 +1,12 @@
+{
+  "extends": "@tsconfig/esm/tsconfig.json",
+  "compilerOptions": {
+    "types": ["@cloudflare/workers-types"],
+    "moduleResolution": "node",
+    "downlevelIteration": true,
+    "strict": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
