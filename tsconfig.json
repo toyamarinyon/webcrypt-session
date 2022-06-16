@@ -1,12 +1,17 @@
 {
+  "extends": "@tsconfig/esm/tsconfig.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "module": "esnext",
-    "moduleResolution": "node",
+    "outDir": "./dist",
     "types": ["vitest/importMeta", "@cloudflare/workers-types"],
+    "moduleResolution": "node",
+    "downlevelIteration": true,
     "strict": true
   },
-  "exclude": ["./dev"]
+  "exclude": [
+    "node_modules",
+    "**/dev/*",
+    "**/dist/*",
+    "vite.config.ts",
+    "testSetUp.ts"
+  ]
 }

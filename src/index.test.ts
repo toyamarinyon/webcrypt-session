@@ -9,92 +9,89 @@ const defaultRequest = new Request("http://loclahost:8989/test");
 const password = "IF4B#t69!WlX$uS22blaxDvzJJ%$vEh%";
 const option: WebCryptSessionOption = { password, cookie: "session" };
 
-test("no scheme", () => {
+test("no scheme", async () => {
   // @ts-ignore we actually want to test this
-  expect(() => createWebCryptSession()).toThrowErrorMatchingInlineSnapshot(
-    '"webcrypt-session: Bad usage"'
+  await expect(createWebCryptSession()).rejects.toThrowError(
+    "webcrypt-session: Bad usage"
   );
 });
 
-test("no req", () => {
-  expect(() =>
+test("no req", async () => {
+  await expect(
     // @ts-ignore we actually want to test this
     createWebCryptSession(scheme)
-  ).toThrowErrorMatchingInlineSnapshot('"webcrypt-session: Bad usage"');
+  ).rejects.toThrowError("webcrypt-session: Bad usage");
 });
 
-test("no option", () => {
-  expect(() =>
+test("no option", async () => {
+  await expect(() =>
     // @ts-ignore we actually want to test this
     createWebCryptSession(scheme, defaultRequest)
-  ).toThrowErrorMatchingInlineSnapshot('"webcrypt-session: Bad usage"');
+  ).rejects.toThrowError("webcrypt-session: Bad usage");
 });
 
-test("no password", () => {
-  expect(() =>
+test("no password", async () => {
+  await expect(() =>
     // @ts-ignore we actually want to test this
     createWebCryptSession(scheme, defaultRequest, {})
-  ).toThrowErrorMatchingInlineSnapshot('"webcrypt-session: Bad usage"');
+  ).rejects.toThrowError("webcrypt-session: Bad usage");
 });
 
-test("bad password length", () => {
-  expect(() =>
+test("bad password length", async () => {
+  await expect(() =>
     // @ts-ignore we actually want to test this
     createWebCryptSession(scheme, defaultRequest, { password: "a" })
-  ).toThrowErrorMatchingInlineSnapshot('"webcrypt-session: Bad usage"');
+  ).rejects.toThrowError("webcrypt-session: Bad usage");
 });
 
-test("no cookie name", () => {
-  expect(() =>
+test("no cookie name", async () => {
+  await expect(() =>
     // @ts-ignore we actually want to test this
     createWebCryptSession(scheme, defaultRequest, { password })
-  ).toThrowErrorMatchingInlineSnapshot('"webcrypt-session: Bad usage"');
+  ).rejects.toThrowError("webcrypt-session: Bad usage");
 });
 
-test("session not exists", () => {
-  const webCryptSession = createWebCryptSession(scheme, defaultRequest, option);
+test("session not exists", async () => {
+  const webCryptSession = await createWebCryptSession(
+    scheme,
+    defaultRequest,
+    option
+  );
   expect(webCryptSession.session.userId).toBeUndefined();
-  expect(
-    webCryptSession.response("Hello World").headers.get("set-cookie")
-  ).toBeNull();
+  const response = await webCryptSession.response("Hello World");
+  expect(response.headers.get("set-cookie")).toBeNull();
 });
 
-test("session exists", () => {
-  const webCryptSession = createWebCryptSession(
+test("session exists", async () => {
+  const webCryptSession = await createWebCryptSession(
     scheme,
     new Request("http://loclahost:8989/test", {
       headers: {
-        cookie: "session=%7B%22userId%22%3A1%7D",
+        cookie: "session=Ekvxbb%2F1pRAsZZWq--%2FybF8SeKlgnR%2FKn7eEiFeA%3D%3D",
       },
     }),
     option
   );
   expect(webCryptSession.session.userId).toBe(1);
-  expect(
-    webCryptSession.response("Hello World").headers.get("set-cookie")
-  ).toBe("session=%7B%22userId%22%3A1%7D");
 });
 
-test("update session", () => {
-  const webCryptSession = createWebCryptSession(
+test("update session", async () => {
+  const webCryptSession = await createWebCryptSession(
     scheme,
     new Request("http://loclahost:8989/test"),
     option
   );
   expect(webCryptSession.session.userId).toBeUndefined();
-  expect(
-    webCryptSession.response("Hello World").headers.get("set-cookie")
-  ).toBeNull();
+  const responseWithoutSession = await webCryptSession.response("Hello World");
+  expect(responseWithoutSession.headers.get("set-cookie")).toBeNull();
 
   webCryptSession.session.userId = 1;
-  expect(webCryptSession.session.userId).toBe(1);
-  expect(
-    webCryptSession.response("Hello World").headers.get("set-cookie")
-  ).toBe("session=%7B%22userId%22%3A1%7D");
+  const responseWithSession = await webCryptSession.response("Hello World");
+  expect(responseWithSession.headers.get("set-cookie")).not.toBeNull();
 });
 
-test("invalid session", () => {
-  const webCryptSession = createWebCryptSession(
+test("invalid session", async () => {
+  const webCryptSession = await createWebCryptSession(
     scheme,
     new Request("http://loclahost:8989/test", {
       headers: {
@@ -103,8 +100,7 @@ test("invalid session", () => {
     }),
     option
   );
+  const response = await webCryptSession.response("Hello World");
   expect(webCryptSession.session.userId).toBeUndefined();
-  expect(
-    webCryptSession.response("Hello World").headers.get("set-cookie")
-  ).toBeNull();
+  expect(response.headers.get("set-cookie")).toBeNull();
 });

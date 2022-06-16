@@ -30,7 +30,14 @@ export default {
       userId: z.number(),
     });
 
-    const webCryptSession = createWebCryptSession(sessionScheme, request);
+    const webCryptSession = await createWebCryptSession(
+      sessionScheme,
+      request,
+      {
+        password: "IF4B#t69!WlX$uS22blaxDvzJJ%$vEh%",
+        cookie: "session",
+      }
+    );
     webCryptSession.session.userId = 1;
     return webCryptSession.response("Hello World!");
   },
