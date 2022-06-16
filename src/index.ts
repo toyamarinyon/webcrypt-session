@@ -1,5 +1,15 @@
 import { parse, serialize } from "cookie";
 import { AnyZodObject, z } from "zod";
+import { encrypt, decrypt, importKey } from "./helper";
+
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
+
+const webCryptSessionOptionScheme = z.object({
+  password: z.string().length(32),
+  cookie: z.string(),
+});
+export type WebCryptSessionOption = z.infer<typeof webCryptSessionOptionScheme>;
 
 function JSONCookie(
   scheme: z.AnyZodObject,
@@ -17,26 +27,59 @@ function JSONCookie(
   }
 }
 
-export function createWebCryptSession<T extends AnyZodObject>(
+async function decryptSession(
+  key: CryptoKey,
+  scheme: z.AnyZodObject,
+  sessionEncrypted: string,
+  counter: string
+) {
+  try {
+    const sessionDecrypted = await decrypt(key, sessionEncrypted, counter);
+    const session = JSONCookie(scheme, sessionDecrypted);
+    return session;
+  } catch (_) {
+    return {} as z.infer<typeof scheme>;
+  }
+}
+
+export async function createWebCryptSession<T extends AnyZodObject>(
   scheme: T,
-  req: Request
-): {
+  req: Request,
+  option: WebCryptSessionOption
+): Promise<{
   session: z.infer<T>;
-  response: (body: string) => Response;
-} {
+  response: (body: string) => Promise<Response>;
+}> {
+  if (
+    req == null ||
+    scheme == null ||
+    option == null ||
+    option.password == null
+  ) {
+    throw new Error(`webcrypt-session: Bad usage`);
+  }
+  const parsedOption = webCryptSessionOptionScheme.safeParse(option);
+  if (!parsedOption.success) {
+    throw new Error(`webcrypt-session: Bad usage`);
+  }
+  const key = await importKey(parsedOption.data.password);
+
   const rawCookie = req.headers.get("cookie");
   const cookie = rawCookie ? parse(rawCookie) : { session: "" };
-  const session = JSONCookie(scheme, cookie.session);
+  const [sessionEncrypted, counter] = cookie.session.split("--");
+
+  const session = await decryptSession(key, scheme, sessionEncrypted, counter);
   return Object.assign({
     session,
-    response: (body: BodyInit | null, init?: ResponseInit) => {
+    response: async (body: BodyInit | null, init?: ResponseInit) => {
       const headers = new Headers(init?.headers);
       try {
         const safeSession = scheme.parse(session);
-        JSON.stringify(safeSession);
+        const safeSessionString = JSON.stringify(safeSession);
+        const { encrypted, counter } = await encrypt(key, safeSessionString);
         headers.set(
           "Set-Cookie",
-          serialize("session", JSON.stringify(safeSession))
+          serialize("session", `${encrypted}--${counter}`)
         );
         return new Response(body, {
           ...init,
