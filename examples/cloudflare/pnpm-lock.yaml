@@ -3,9 +3,11 @@ lockfileVersion: 5.3
 specifiers:
   webcrypt-session: ^0.1.0
   wrangler: ^2.0.12
+  zod: ^3.17.3
 
 dependencies:
   webcrypt-session: 0.1.0
+  zod: 3.17.3
 
 devDependencies:
   wrangler: 2.0.12

@@ -18,7 +18,8 @@
   "homepage": "https://github.com/toyamarinyon/webcrypt-session#readme",
   "license": "ISC",
   "dependencies": {
-    "webcrypt-session": "^0.1.0"
+    "webcrypt-session": "^0.1.0",
+    "zod": "^3.17.3"
   },
   "devDependencies": {
     "wrangler": "^2.0.12"
