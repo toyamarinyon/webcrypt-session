@@ -10,9 +10,9 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/webCryptSession.mjs",
-      "require": "./dist/webCryptSession.js",
-      "type": "./dist/webCryptSession.d.ts"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "type": "./dist/index.d.ts"
     }
   },
   "repository": {
