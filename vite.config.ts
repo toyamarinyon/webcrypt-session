@@ -5,6 +5,7 @@ export default defineConfig({
     "import.meta.vitest": "undefined",
   },
   test: {
+    dir: "src",
     includeSource: ["src/**/*.{js,ts}"],
     setupFiles: ["./testSetUp.ts"],
   },
