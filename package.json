@@ -1,8 +1,13 @@
 {
   "name": "webcrypt-session",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "WebCrypt stateless session utility using signed and encrypted cookies to store data.",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build": "run-p build:*",
     "build:esbuild": "node script/build.js",
