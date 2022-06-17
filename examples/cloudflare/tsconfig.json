@@ -4,7 +4,9 @@
     "types": ["@cloudflare/workers-types"],
     "moduleResolution": "node",
     "downlevelIteration": true,
-    "strict": true
+    "strict": true,
+    "lib": ["ESNext"]
+
   },
   "exclude": [
     "node_modules"
