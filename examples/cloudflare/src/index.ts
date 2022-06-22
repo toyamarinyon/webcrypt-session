@@ -47,19 +47,32 @@ export default {
       }
       try {
         const signInParam = signInParamScheme.parse(await request.json());
-        webCryptSession.session.username = signInParam.username;
-        return webCryptSession.response(`Hello ${signInParam.username}!`);
+        webCryptSession.username = signInParam.username;
+        const session = await webCryptSession.toHeaderValue();
+        if (session == null) {
+          throw new Error();
+        }
+        return new Response(`Hello ${signInParam.username}`, {
+          headers: {
+            "Set-Cookie": session,
+          },
+        });
       } catch {
         return new Response(null, {
           status: 400,
         });
       }
     }
-    if (webCryptSession.session.username == null) {
-      return webCryptSession.response(
+    const session = await webCryptSession.toHeaderValue();
+    if (session == null) {
+      return new Response(
         "Please sign in first with http://localhost:8787/signIn"
       );
     }
-    return webCryptSession.response(`Hello ${webCryptSession.session.username}`);
+    return new Response(`Hello ${webCryptSession.username}`, {
+      headers: {
+        "Set-Cookie": session,
+      },
+    });
   },
 };

@@ -3,12 +3,12 @@ lockfileVersion: 5.3
 specifiers:
   '@cloudflare/workers-types': ^3.12.0
   '@tsconfig/esm': ^1.0.1
-  webcrypt-session: ^0.1.0
+  webcrypt-session: ^0.2.0
   wrangler: ^2.0.12
   zod: ^3.17.3
 
 dependencies:
-  webcrypt-session: 0.1.0
+  webcrypt-session: 0.2.0
   zod: 3.17.3
 
 devDependencies:
@@ -622,8 +622,8 @@ packages:
     resolution: {integrity: sha512-DOE84vZT2fEcl9gqCUTcnAw5ZY5Id55ikUcziSUntuEFL3pRvavg5kwDmTEUJkeCHInTlV/HexFomgYnzO5kdQ==}
     dev: true
 
-  /webcrypt-session/0.1.0:
-    resolution: {integrity: sha512-iS/T/FOMDFGY49ESOj2pjioCSuYbBJenF0MnFH9v7/6PUGfUuS4hlvUGadN3FaaM91GTY7adpXopyAiKyLZEIg==}
+  /webcrypt-session/0.2.0:
+    resolution: {integrity: sha512-I1fI+6YzC1ESp7IkFloUZG/Eb40MxEf8gFFJjc+HDT2hhFapz1Hol9hLXJdmKovC+8jREfo6HbB5/Vd1w8mdTA==}
     dependencies:
       cookie: 0.5.0
       zod: 3.17.3
