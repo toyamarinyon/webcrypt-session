@@ -2,9 +2,6 @@ import { parse, serialize } from "cookie";
 import { AnyZodObject, z } from "zod";
 import { encrypt, decrypt, importKey } from "./helper";
 
-const encoder = new TextEncoder();
-const decoder = new TextDecoder();
-
 const webCryptSessionOptionScheme = z.object({
   password: z.string().length(32),
   cookie: z.string(),
