@@ -39,9 +39,8 @@ async function decryptSession(
   }
 }
 
-export type WebCryptSession<T extends AnyZodObject> = {
-  session: z.infer<T>,
-  response: (body: string) => Promise<Response>;
+export type WebCryptSession<T extends AnyZodObject> = z.infer<T> & {
+  toHeaderValue: () => Promise<string | undefined>;
 };
 
 export async function createWebCryptSession<T extends AnyZodObject>(
@@ -68,26 +67,15 @@ export async function createWebCryptSession<T extends AnyZodObject>(
   const [sessionEncrypted, counter] = cookie.session.split("--");
 
   const session = await decryptSession(key, scheme, sessionEncrypted, counter);
-  return Object.assign({
-    session,
-    response: async (body: BodyInit | null, init?: ResponseInit) => {
-      const headers = new Headers(init?.headers);
+  return Object.assign(session, {
+    toHeaderValue: async () => {
       try {
         const safeSession = scheme.parse(session);
         const safeSessionString = JSON.stringify(safeSession);
         const { encrypted, counter } = await encrypt(key, safeSessionString);
-        headers.set(
-          "Set-Cookie",
-          serialize("session", `${encrypted}--${counter}`)
-        );
-        return new Response(body, {
-          ...init,
-          headers,
-        });
-      } catch (e) {
-        return new Response(body, {
-          headers,
-        });
+        return serialize("session", `${encrypted}--${counter}`);
+      } catch (_) {
+        return undefined;
       }
     },
   });

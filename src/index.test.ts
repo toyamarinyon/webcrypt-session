@@ -57,9 +57,9 @@ test("session not exists", async () => {
     defaultRequest,
     option
   );
-  expect(webCryptSession.session.userId).toBeUndefined();
-  const response = await webCryptSession.response("Hello World");
-  expect(response.headers.get("set-cookie")).toBeNull();
+  expect(webCryptSession.userId).toBeUndefined();
+  const setCookieHeader = await webCryptSession.toHeaderValue();
+  expect(setCookieHeader).toBeUndefined();
 });
 
 test("session exists", async () => {
@@ -72,7 +72,7 @@ test("session exists", async () => {
     }),
     option
   );
-  expect(webCryptSession.session.userId).toBe(1);
+  expect(webCryptSession.userId).toBe(1);
 });
 
 test("update session", async () => {
@@ -81,13 +81,13 @@ test("update session", async () => {
     new Request("http://loclahost:8989/test"),
     option
   );
-  expect(webCryptSession.session.userId).toBeUndefined();
-  const responseWithoutSession = await webCryptSession.response("Hello World");
-  expect(responseWithoutSession.headers.get("set-cookie")).toBeNull();
+  expect(webCryptSession.userId).toBeUndefined();
+  const nonSessionHeader = await webCryptSession.toHeaderValue();
+  expect(nonSessionHeader).toBeUndefined();
 
-  webCryptSession.session.userId = 1;
-  const responseWithSession = await webCryptSession.response("Hello World");
-  expect(responseWithSession.headers.get("set-cookie")).not.toBeNull();
+  webCryptSession.userId = 1;
+  const sessionHeader = await webCryptSession.toHeaderValue();
+  expect(sessionHeader).not.toBeUndefined();
 });
 
 test("invalid session", async () => {
@@ -100,7 +100,7 @@ test("invalid session", async () => {
     }),
     option
   );
-  const response = await webCryptSession.response("Hello World");
-  expect(webCryptSession.session.userId).toBeUndefined();
-  expect(response.headers.get("set-cookie")).toBeNull();
+  const nonSessionHeader = await webCryptSession.toHeaderValue();
+  expect(webCryptSession.userId).toBeUndefined();
+  expect(nonSessionHeader).toBeUndefined();
 });
