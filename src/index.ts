@@ -42,14 +42,16 @@ async function decryptSession(
   }
 }
 
+export type WebCryptSession<T extends AnyZodObject> = {
+  session: z.infer<T>,
+  response: (body: string) => Promise<Response>;
+};
+
 export async function createWebCryptSession<T extends AnyZodObject>(
   scheme: T,
   req: Request,
   option: WebCryptSessionOption
-): Promise<{
-  session: z.infer<T>;
-  response: (body: string) => Promise<Response>;
-}> {
+): Promise<WebCryptSession<T>> {
   if (
     req == null ||
     scheme == null ||
