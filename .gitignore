@@ -3,5 +3,5 @@ node_modules
 dist
 dev
 cookie.txt
-
+.env
 .pnpm-debug.log
