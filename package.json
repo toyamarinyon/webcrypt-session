@@ -17,5 +17,8 @@
   "engines": {
     "npm": ">=8.11.0",
     "node": ">=18.3.0"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.23.0"
   }
 }
