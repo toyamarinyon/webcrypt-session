@@ -9,6 +9,7 @@
     "version": "changeset version"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.4.5",
     "turbo": "latest"
   },
   "workspaces": [
