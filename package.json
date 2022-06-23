@@ -5,9 +5,11 @@
   "packageManager": "pnpm@7.1.7",
   "scripts": {
     "build": "turbo run build",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "release": "auto shipit"
   },
   "devDependencies": {
+    "auto": "^10.37.1",
     "turbo": "latest"
   },
   "workspaces": [
@@ -17,5 +19,12 @@
   "engines": {
     "npm": ">=8.11.0",
     "node": ">=18.3.0"
+  },
+  "repository": "toyamarinyon/webcrypt-session",
+  "author": "Satoshi Toyama <toyamarinyon@gmail.com>",
+  "auto": {
+    "plugins": [
+      "npm"
+    ]
   }
 }
