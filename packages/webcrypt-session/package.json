@@ -1,6 +1,6 @@
 {
   "name": "webcrypt-session",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "WebCrypt stateless session utility using signed and encrypted cookies to store data.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
