@@ -1,4 +1,7 @@
+.turbo
 node_modules
 dist
 dev
 cookie.txt
+
+.pnpm-debug.log
