@@ -27,7 +27,7 @@ jobs:
           node-version: 16
           cache: 'pnpm'
 
-          - name: Install Dependencies
+      - name: Install Dependencies
         run: pnpm install
 
       - name: Create Release Pull Request or Publish to npm
