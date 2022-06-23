@@ -5,7 +5,8 @@
   "packageManager": "pnpm@7.1.7",
   "scripts": {
     "build": "turbo run build",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "release": "auto shipit"
   },
   "devDependencies": {
     "auto": "^10.37.1",
@@ -23,11 +24,7 @@
   "author": "Satoshi Toyama <toyamarinyon@gmail.com>",
   "auto": {
     "plugins": [
-      "npm",
-      "all-contributors",
-      "conventional-commits",
-      "first-time-contributor",
-      "released"
+      "npm"
     ]
   }
 }
