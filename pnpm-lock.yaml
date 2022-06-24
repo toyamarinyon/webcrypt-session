@@ -28,21 +28,6 @@ importers:
       '@tsconfig/esm': 1.0.1
       wrangler: 2.0.15
 
-  examples/cloudflare-trpc:
-    specifiers:
-      '@cloudflare/workers-types': ^3.12.0
-      '@tsconfig/esm': ^1.0.1
-      webcrypt-session: link:../../packages/webcrypt-session
-      wrangler: ^2.0.12
-      zod: ^3.17.3
-    dependencies:
-      webcrypt-session: link:../../packages/webcrypt-session
-      zod: 3.17.3
-    devDependencies:
-      '@cloudflare/workers-types': 3.13.0
-      '@tsconfig/esm': 1.0.1
-      wrangler: 2.0.15
-
   packages/webcrypt-session:
     specifiers:
       '@cloudflare/workers-types': ^3.11.0
