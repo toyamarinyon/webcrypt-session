@@ -7,7 +7,7 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "version": "changeset version",
-    "release": "pnpm build && changeset release"
+    "release": "pnpm build && changeset publish"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.4.5",
