@@ -19,6 +19,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js",
       "type": "./dist/index.d.ts"
+    },
+    "./trpc": {
+      "import": "./dist/adapters/trpc/index.mjs",
+      "require": "./dist/adapters/trpc/index.js",
+      "types": "./dist/adapters/trpc/index.d.ts"
     }
   },
   "repository": {

@@ -1,21 +1,28 @@
 const { build } = require("esbuild");
+const { join } = require("path");
 
+const prefixes = ["", "adapters/trpc"];
 const shared = {
-  entryPoints: ["src/index.ts"],
   bundle: true,
   define: {
     "import.meta.vitest": undefined,
   },
 };
+prefixes.map((prefix) => {
+  const entryPoint = join("src", prefix, "index.ts");
+  const cjsOutFile = join("dist", prefix, "index.js");
+  const esmOutFile = join("dist", prefix, "index.mjs");
+  build({
+    ...shared,
+    entryPoints: [entryPoint],
+    format: "cjs",
+    outfile: cjsOutFile,
+  });
 
-build({
-  ...shared,
-  format: "cjs",
-  outfile: "dist/index.js",
-});
-
-build({
-  ...shared,
-  format: "esm",
-  outfile: "dist/index.mjs",
+  build({
+    ...shared,
+    entryPoints: [entryPoint],
+    format: "esm",
+    outfile: esmOutFile,
+  });
 });
