@@ -7,7 +7,7 @@ const scheme = z.object({
 });
 const defaultRequest = new Request("http://loclahost:8989/test");
 const password = "IF4B#t69!WlX$uS22blaxDvzJJ%$vEh%";
-const option: WebCryptSessionOption = { password, cookie: "session" };
+const option: WebCryptSessionOption = { password };
 
 test("no scheme", async () => {
   // @ts-ignore we actually want to test this
@@ -41,13 +41,6 @@ test("bad password length", async () => {
   await expect(() =>
     // @ts-ignore we actually want to test this
     createWebCryptSession(scheme, defaultRequest, { password: "a" })
-  ).rejects.toThrowError("webcrypt-session: Bad usage");
-});
-
-test("no cookie name", async () => {
-  await expect(() =>
-    // @ts-ignore we actually want to test this
-    createWebCryptSession(scheme, defaultRequest, { password })
   ).rejects.toThrowError("webcrypt-session: Bad usage");
 });
 

@@ -4,7 +4,6 @@ import { encrypt, decrypt, importKey } from "./helper";
 
 const webCryptSessionOptionScheme = z.object({
   password: z.string().length(32),
-  cookie: z.string(),
 });
 export type WebCryptSessionOption = z.infer<typeof webCryptSessionOptionScheme>;
 
