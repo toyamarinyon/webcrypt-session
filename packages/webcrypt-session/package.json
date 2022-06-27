@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^3.11.0",
+    "@trpc/server": "^10.0.0-alpha.22",
     "@tsconfig/esm": "^1.0.1",
     "@types/cookie": "^0.5.1",
     "@types/node": "^17.0.40",
