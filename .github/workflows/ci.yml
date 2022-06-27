@@ -3,8 +3,7 @@ on: [push]
 
 jobs:
   test:
-    name: Release
-    if: ${{ (github.ref_name == 'main' || github.head_ref == 'next') && github.repository_owner == 'toyamarinyon' }}
+    name: Build testing
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
