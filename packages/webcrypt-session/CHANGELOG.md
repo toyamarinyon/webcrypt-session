@@ -1,5 +1,11 @@
 # webcrypt-session
 
+## 0.4.2
+
+### Patch Changes
+
+- [`7050415`](https://github.com/toyamarinyon/webcrypt-session/commit/70504155f8df007c76a3e5628a9e7387f567848b) Thanks [@toyamarinyon](https://github.com/toyamarinyon)! - Add adapters directory into project
+
 ## 0.4.1
 
 ### Patch Changes
