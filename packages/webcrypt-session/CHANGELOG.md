@@ -1,5 +1,11 @@
 # webcrypt-session
 
+## 0.4.0
+
+### Minor Changes
+
+- [#11](https://github.com/toyamarinyon/webcrypt-session/pull/11) [`68f9b10`](https://github.com/toyamarinyon/webcrypt-session/commit/68f9b10a9464e85592a1aefde251329c2cf6cfd4) Thanks [@toyamarinyon](https://github.com/toyamarinyon)! - Add tRPC plugin
+
 ## 0.3.2
 
 ### Patch Changes
