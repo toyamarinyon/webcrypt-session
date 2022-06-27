@@ -7,7 +7,7 @@ import {
   ProcedureType,
   TRPCError,
 } from "@trpc/server";
-import { TRPCResponse } from "@trpc/server/dist/declarations/src/rpc";
+import { TRPCResponse } from "@trpc/server/rpc"
 
 export async function getWebCryptSession<T extends z.AnyZodObject>(
   scheme: T,
