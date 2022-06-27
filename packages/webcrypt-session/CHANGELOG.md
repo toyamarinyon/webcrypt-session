@@ -1,5 +1,11 @@
 # webcrypt-session
 
+## 0.4.1
+
+### Patch Changes
+
+- [#13](https://github.com/toyamarinyon/webcrypt-session/pull/13) [`6dcba1f`](https://github.com/toyamarinyon/webcrypt-session/commit/6dcba1fe8cf039daa78ddd4c5677a16d6985dc8a) Thanks [@toyamarinyon](https://github.com/toyamarinyon)! - Add ci
+
 ## 0.4.0
 
 ### Minor Changes
