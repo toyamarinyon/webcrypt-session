@@ -14,13 +14,13 @@ test("works properly", async () => {
   const session = await getWebCryptSession(scheme, defaultRequest, option);
   expect(session.userId).not.toBeNull();
   // @ts-ignore we actually want to test this
-  const [key, value] = await session.responseHeader()
-  expect(key).toBe('set-cookie')
-  expect(value).toBeUndefined()
+  const [key, value] = session.responseHeader();
+  expect(key).toBe("set-cookie");
+  expect(value).toBeUndefined();
 
-  session.userId = 1
+  await session.save({ userId: 1 });
   // @ts-ignore we actually want to test this
-  const [key2, value2] = await session.responseHeader()
-  expect(key2).toBe('set-cookie')
-  expect(value2).not.toBeUndefined()
+  const [key2, value2] = session.responseHeader();
+  expect(key2).toBe("set-cookie");
+  expect(value2).not.toBeUndefined();
 });

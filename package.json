@@ -6,6 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",
+    "test:ci": "turbo run test:ci",
     "version": "changeset version",
     "release": "pnpm build && changeset publish"
   },

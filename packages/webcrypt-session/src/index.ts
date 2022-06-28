@@ -26,10 +26,11 @@ function JSONCookie(
 async function decryptSession(
   key: CryptoKey,
   scheme: z.AnyZodObject,
-  sessionEncrypted: string,
-  counter: string
+  cookie: string | null
 ) {
   try {
+    const cookieParsed = cookie ? parse(cookie) : { session: "" };
+    const [sessionEncrypted, counter] = cookieParsed.session.split("--");
     const sessionDecrypted = await decrypt(key, sessionEncrypted, counter);
     const session = JSONCookie(scheme, sessionDecrypted);
     return session;
@@ -39,7 +40,8 @@ async function decryptSession(
 }
 
 export type WebCryptSession<T extends AnyZodObject> = z.infer<T> & {
-  toHeaderValue: () => Promise<string | undefined>;
+  save: (scheme: z.infer<T>) => Promise<void>;
+  toHeaderValue: () => string | undefined;
 };
 
 export async function createWebCryptSession<T extends AnyZodObject>(
@@ -61,21 +63,22 @@ export async function createWebCryptSession<T extends AnyZodObject>(
   }
   const key = await importKey(parsedOption.data.password);
 
-  const rawCookie = req.headers.get("cookie");
-  const cookie = rawCookie ? parse(rawCookie) : { session: "" };
-  const [sessionEncrypted, counter] = cookie.session.split("--");
-
-  const session = await decryptSession(key, scheme, sessionEncrypted, counter);
+  const session = await decryptSession(key, scheme, req.headers.get("cookie"));
+  let encryptedSession: string;
+  let encryptedCounter: string;
   return Object.assign(session, {
-    toHeaderValue: async () => {
-      try {
-        const safeSession = scheme.parse(session);
-        const safeSessionString = JSON.stringify(safeSession);
-        const { encrypted, counter } = await encrypt(key, safeSessionString);
-        return serialize("session", `${encrypted}--${counter}`);
-      } catch (_) {
+    save: async (newSession: z.infer<T>) => {
+      const safeSession = scheme.parse(newSession);
+      const safeSessionString = JSON.stringify(safeSession);
+      const { encrypted, counter } = await encrypt(key, safeSessionString);
+      encryptedSession = encrypted;
+      encryptedCounter = counter;
+    },
+    toHeaderValue: () => {
+      if (encryptedSession == null || encryptedCounter == null) {
         return undefined;
       }
+      return serialize("session", `${encryptedSession}--${encryptedCounter}`);
     },
   });
 }

@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { createWebCryptSession, WebCryptSessionOption } from "../..";
+import {
+  createWebCryptSession,
+  WebCryptSession,
+  WebCryptSessionOption,
+} from "../..";
 import {
   AnyRouter,
   inferRouterContext,
@@ -7,7 +11,7 @@ import {
   ProcedureType,
   TRPCError,
 } from "@trpc/server";
-import { TRPCResponse } from "@trpc/server/rpc"
+import { TRPCResponse } from "@trpc/server/rpc";
 
 export async function getWebCryptSession<T extends z.AnyZodObject>(
   scheme: T,
@@ -17,14 +21,14 @@ export async function getWebCryptSession<T extends z.AnyZodObject>(
   const webCryptSession = await createWebCryptSession(scheme, req, option);
 
   // Call this function inside tRPC.responseMeta to set cookie into header
-  async function responseHeader<TRouter extends AnyRouter>(opts: {
+  function responseHeader<TRouter extends AnyRouter>(opts: {
     data: TRPCResponse<unknown, inferRouterError<TRouter>>[];
     ctx?: inferRouterContext<TRouter>;
     paths?: string[];
     type: ProcedureType | "unknown";
     errors: TRPCError[];
   }) {
-    const setCookieHeader = await webCryptSession.toHeaderValue();
+    const setCookieHeader = webCryptSession.toHeaderValue();
     return ["set-cookie", setCookieHeader];
   }
 
@@ -34,5 +38,8 @@ export async function getWebCryptSession<T extends z.AnyZodObject>(
 
   // Block calls to WebCryptSession's internal functions
   // allowing access only to the scheme.
-  return (webCryptSession as unknown) as z.infer<T>;
+  return (webCryptSession as unknown) as Exclude<
+    WebCryptSession<T>,
+    "toHeaderValue"
+  >;
 }

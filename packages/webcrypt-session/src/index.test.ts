@@ -51,7 +51,7 @@ test("session not exists", async () => {
     option
   );
   expect(webCryptSession.userId).toBeUndefined();
-  const setCookieHeader = await webCryptSession.toHeaderValue();
+  const setCookieHeader = webCryptSession.toHeaderValue();
   expect(setCookieHeader).toBeUndefined();
 });
 
@@ -68,7 +68,7 @@ test("session exists", async () => {
   expect(webCryptSession.userId).toBe(1);
 });
 
-test("update session", async () => {
+test("save session", async () => {
   const webCryptSession = await createWebCryptSession(
     scheme,
     new Request("http://loclahost:8989/test"),
@@ -77,9 +77,10 @@ test("update session", async () => {
   expect(webCryptSession.userId).toBeUndefined();
   const nonSessionHeader = await webCryptSession.toHeaderValue();
   expect(nonSessionHeader).toBeUndefined();
-
-  webCryptSession.userId = 1;
-  const sessionHeader = await webCryptSession.toHeaderValue();
+  await webCryptSession.save({
+    userId: 1,
+  });
+  const sessionHeader = webCryptSession.toHeaderValue();
   expect(sessionHeader).not.toBeUndefined();
 });
 
@@ -93,7 +94,7 @@ test("invalid session", async () => {
     }),
     option
   );
-  const nonSessionHeader = await webCryptSession.toHeaderValue();
+  const nonSessionHeader = webCryptSession.toHeaderValue();
   expect(webCryptSession.userId).toBeUndefined();
   expect(nonSessionHeader).toBeUndefined();
 });
