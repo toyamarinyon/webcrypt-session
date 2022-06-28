@@ -13,7 +13,8 @@
     "build": "run-p build:*",
     "build:esbuild": "node script/build.js",
     "build:type": "tsc --project tsconfig.build.json",
-    "test": "vitest"
+    "test": "vitest",
+    "test:ci": "vitest run"
   },
   "exports": {
     ".": {
