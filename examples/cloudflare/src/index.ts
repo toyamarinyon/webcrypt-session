@@ -37,7 +37,6 @@ export default {
       request,
       {
         password: "IF4B#t69!WlX$uS22blaxDvzJJ%$vEh%",
-        cookie: "session",
       }
     );
     const url = new URL(request.url);
@@ -47,8 +46,10 @@ export default {
       }
       try {
         const signInParam = signInParamScheme.parse(await request.json());
-        webCryptSession.username = signInParam.username;
-        const session = await webCryptSession.toHeaderValue();
+        await webCryptSession.save({
+          username: signInParam.username,
+        });
+        const session = webCryptSession.toHeaderValue();
         if (session == null) {
           throw new Error();
         }
@@ -63,7 +64,7 @@ export default {
         });
       }
     }
-    const session = await webCryptSession.toHeaderValue();
+    const session = webCryptSession.username;
     if (session == null) {
       return new Response(
         "Please sign in first with http://localhost:8787/signIn"
