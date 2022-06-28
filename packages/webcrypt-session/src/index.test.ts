@@ -98,3 +98,18 @@ test("invalid session", async () => {
   expect(webCryptSession.userId).toBeUndefined();
   expect(nonSessionHeader).toBeUndefined();
 });
+
+test("there is no session in cookie", async () => {
+  const webCryptSession = await createWebCryptSession(
+    scheme,
+    new Request("http://loclahost:8989/test", {
+      headers: {
+        cookie: "googleAnalytics=%7B%22userId%22%3A1%7",
+      },
+    }),
+    option
+  );
+  const nonSessionHeader = webCryptSession.toHeaderValue();
+  expect(webCryptSession.userId).toBeUndefined();
+  expect(nonSessionHeader).toBeUndefined();
+});
