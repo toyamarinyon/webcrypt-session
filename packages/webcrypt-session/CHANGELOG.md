@@ -1,5 +1,13 @@
 # webcrypt-session
 
+## 0.5.1
+
+### Patch Changes
+
+- [#19](https://github.com/toyamarinyon/webcrypt-session/pull/19) [`d788375`](https://github.com/toyamarinyon/webcrypt-session/commit/d788375ae5ccb0ff48ea852eaf4c69380aa8731a) Thanks [@toyamarinyon](https://github.com/toyamarinyon)! - Add a live demo
+
+* [#21](https://github.com/toyamarinyon/webcrypt-session/pull/21) [`508fbfb`](https://github.com/toyamarinyon/webcrypt-session/commit/508fbfb7aa506cbea48eea4dfee5939b537b68a2) Thanks [@toyamarinyon](https://github.com/toyamarinyon)! - update readme
+
 ## 0.5.0
 
 ### Minor Changes
