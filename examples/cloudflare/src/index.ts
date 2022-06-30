@@ -26,6 +26,35 @@ const sessionScheme = z.object({
 const signInParamScheme = z.object({
   username: z.string(),
 });
+
+const welComePage = `<!DOCTYPE html>
+<body>
+  <h1>Hello WebCrypt-Session</h1>
+  <p>Please sign in first with <a href="/signIn">sign-in</a>.</p>
+</body>
+</html>`;
+
+const welComeUserPage = `<!DOCTYPE html>
+<body>
+  <h1>Hello WebCrypt-Session</h1>
+  <p>Welcome, <%= username %>!</p>
+  <p>You can sign out with clicking following button.</p>
+  <form action="/signOut" method="POST">
+  <button type="submit">Sign Out</button>
+  </form>
+</body>
+</html>`;
+
+const signInPage = `<!DOCTYPE html>
+<body>
+  <h1>Sign-In to WebCrypt-Session</h1>
+  <form action="signIn" method="POST">
+    <label>Username: <input type="text" name="username" required /></label>
+    <button type="submit">Sign in</button>
+  </form>
+</body>
+</html>`;
+
 export default {
   async fetch(
     request: Request,
@@ -40,12 +69,21 @@ export default {
       }
     );
     const url = new URL(request.url);
+    const baseUrl = `${url.protocol}//${url.host}`;
     if (url.pathname === "/signIn") {
-      if (request.method !== "POST") {
+      if (request.method === "GET") {
+        return new Response(signInPage, {
+          headers: {
+            "content-type": "text/html;charset=UTF-8",
+          },
+        });
+      } else if (request.method !== "POST") {
         return new Response(null, { status: 405 });
       }
       try {
-        const signInParam = signInParamScheme.parse(await request.json());
+        const formData = await request.formData();
+        const formObject = Object.fromEntries(formData.entries());
+        const signInParam = signInParamScheme.parse(formObject);
         await webCryptSession.save({
           username: signInParam.username,
         });
@@ -53,27 +91,43 @@ export default {
         if (session == null) {
           throw new Error();
         }
-        return new Response(`Hello ${signInParam.username}`, {
+        return new Response(null, {
+          status: 303,
           headers: {
+            location: baseUrl,
             "Set-Cookie": session,
           },
         });
-      } catch {
+      } catch (_) {
         return new Response(null, {
           status: 400,
         });
       }
+    } else if (url.pathname === "/signOut") {
+      return new Response(null, {
+        status: 303,
+        headers: {
+          location: baseUrl,
+          "Set-Cookie": "session=delete; expires=Thu, 01 Jan 1970 00:00:00 GMT",
+        },
+      });
     }
     const session = webCryptSession.username;
     if (session == null) {
-      return new Response(
-        "Please sign in first with http://localhost:8787/signIn"
-      );
+      return new Response(welComePage, {
+        headers: {
+          "content-type": "text/html;charset=UTF-8",
+        },
+      });
     }
-    return new Response(`Hello ${webCryptSession.username}`, {
-      headers: {
-        "Set-Cookie": session,
-      },
-    });
+    return new Response(
+      welComeUserPage.replace("<%= username %>", webCryptSession.username),
+      {
+        headers: {
+          "Set-Cookie": webCryptSession.toHeaderValue() ?? "",
+          "content-type": "text/html;charset=UTF-8",
+        },
+      }
+    );
   },
 };
