@@ -1,5 +1,7 @@
 # WebCrypt Session
 
+demo: https://webcrypt-session.sat0shi.workers.dev/
+
 _🛠 Stateless session utility using signed and encrypted cookies to store data. Works with WebCrypt API on Cloudflare Workers._
 
 ```ts
@@ -16,10 +18,13 @@ export default {
       request,
       {
         password: "IF4B#t69!WlX$uS22blaxDvzJJ%$vEh%",
-        cookie: "session",
       }
     );
-    return webCryptSession.response(`Hello ${webCryptSession.session.username}`)
+    return new Response(`Hello ${webCryptSession.username}`, {
+      headers: {
+        "Set-Cookie": webCryptSession.toHeaderValue(),
+      },
+    });
   },
 };
 ```
