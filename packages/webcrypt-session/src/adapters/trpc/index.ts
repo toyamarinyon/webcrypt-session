@@ -38,7 +38,7 @@ export async function getWebCryptSession<T extends z.AnyZodObject>(
 
   // Block calls to WebCryptSession's internal functions
   // allowing access only to the scheme.
-  return (webCryptSession as unknown) as Exclude<
+  return (webCryptSession as unknown) as Omit<
     WebCryptSession<T>,
     "toHeaderValue"
   >;
