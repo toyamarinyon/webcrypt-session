@@ -5,7 +5,7 @@ const prefixes = ["", "adapters/trpc"];
 const shared = {
   bundle: true,
   define: {
-    "import.meta.vitest": undefined,
+    "import.meta.vitest": "undefined",
   },
 };
 prefixes.map((prefix) => {
